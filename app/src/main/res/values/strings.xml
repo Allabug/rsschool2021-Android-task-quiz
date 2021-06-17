@@ -1,3 +1,71 @@
 <resources>
     <string name="app_name">Quiz</string>
+
+
+    <string name="question1">Как называется 3 по счету планета от Солнца?</string>
+    <string-array name="answers_question1">
+        <item>Меркурий</item>
+        <item>Марс</item>
+        <item>Венера</item>
+        <item>Земля</item>
+        <item>Сатурн</item>
+    </string-array>
+
+    <string name="question2">Как называется наша планетарная система?</string>
+    <string-array name="answers_question2">
+        <item>На трех китах</item>
+        <item>Плоскоземельная</item>
+        <item>Солнечная</item>
+        <item>Лунная</item>
+        <item>Звездная</item>
+    </string-array>
+
+    <string name="question3">За какой период времени Земля оборачивается вокруг солнца?</string>
+    <string-array name="answers_question3">
+        <item>За год</item>
+        <item>За неделю</item>
+        <item>За месяц</item>
+        <item>За сутки</item>
+        <item>За час</item>
+    </string-array>
+
+    <string name="question4">Сколько звезд в солнечной системе?</string>
+    <string-array name="answers_question4">
+        <item>10</item>
+        <item>1</item>
+        <item>0</item>
+        <item>4</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="question5">На какой из этих планет год длинее?</string>
+    <string-array name="answers_question5">
+        <item>Нептун</item>
+        <item>Земля</item>
+        <item>Меркурий</item>
+        <item>Венера</item>
+        <item>Марс</item>
+    </string-array>
+
+    <string name="question6">Какая из планет практически лишена атмосферы?</string>
+    <string-array name="answers_question6">
+        <item>Земля</item>
+        <item>Марс</item>
+        <item>Венера</item>
+        <item>Юпитер</item>
+        <item>Меркурий</item>
+    </string-array>
+
+    <string name="question7">Что есть у спиральных галактик?</string>
+    <string name="submit_button">SUBMIT</string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
+    <string-array name="answers_question7">
+        <item>Карманы</item>
+        <item>Рукава</item>
+        <item>Спираль</item>
+        <item>Воротник</item>
+        <item>Глаза</item>
+    </string-array>
+
 </resources>
