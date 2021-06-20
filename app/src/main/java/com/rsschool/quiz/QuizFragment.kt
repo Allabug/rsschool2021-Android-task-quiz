@@ -3,12 +3,12 @@ package com.rsschool.quiz
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RadioButton
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -20,6 +20,12 @@ class QuizFragment : Fragment() {
     private val binding get() = _binding!!
     private var dataPassListener: DataPassListener? = null
     private lateinit var questionQuiz: Question
+    private val index by lazy { questionQuiz.index }
+    private val backListener = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            onPreviousClicked(index)
+        }
+    }
 
     interface DataPassListener {
         fun pressNextButton(
@@ -41,6 +47,7 @@ class QuizFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         questionQuiz = getQuestion(this)
+        requireActivity().onBackPressedDispatcher.addCallback(this, backListener)
     }
 
     override fun onCreateView(
@@ -49,7 +56,6 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         changeStyle(questionQuiz.index)
-
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,24 +63,13 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val index = questionQuiz.index
         var currentRadioButtonId = questionQuiz.checkedRadioButtonId
-
-        changeStyle(questionQuiz.index)
 
         with(binding.toolbar) {
             title = questionQuiz.title
             if (index != 0) setNavigationIcon(R.drawable.ic_baseline_chevron_left_24)
             setNavigationOnClickListener {
-                val checkedRadioButtonId = binding.radioGroup.checkedRadioButtonId
-                val positionCheckedRadioButton = getPositionRadioButton()
-                val indexForStyle = index - 1
-                changeStyle(indexForStyle)
-                dataPassListener?.pressPreviousButton(
-                    index,
-                    checkedRadioButtonId,
-                    positionCheckedRadioButton
-                )
+                onPreviousClicked(index)
             }
         }
 
@@ -83,11 +78,14 @@ class QuizFragment : Fragment() {
         if (index == maxIndex) binding.nextButton.text = getString(R.string.submit_button)
 
         if (index == 0) {
+            //если мы на первом экране
             binding.nextButton.isEnabled = false
             binding.previousButton.isEnabled = false
+            backListener.isEnabled = false
         } else {
             binding.nextButton.isEnabled = false
             binding.previousButton.isEnabled = true
+            backListener.isEnabled = true
         }
 
         binding.question.text = resources.getString(questionQuiz.question)
@@ -123,19 +121,22 @@ class QuizFragment : Fragment() {
                 isAnswerCorrect
             )
         }
-
         binding.previousButton.setOnClickListener {
             //переключиться на предыдущий вопрос
-            val checkedRadioButtonId = binding.radioGroup.checkedRadioButtonId
-            val positionCheckedRadioButton = getPositionRadioButton()
-            val indexForStyle = index - 1
-            changeStyle(indexForStyle)
-            dataPassListener?.pressPreviousButton(
-                index,
-                checkedRadioButtonId,
-                positionCheckedRadioButton
-            )
+            onPreviousClicked(index)
         }
+    }
+
+    private fun onPreviousClicked(index: Int) {
+        val checkedRadioButtonId = binding.radioGroup.checkedRadioButtonId
+        val positionCheckedRadioButton = getPositionRadioButton()
+        val indexForStyle = index - 1
+        changeStyle(indexForStyle)
+        dataPassListener?.pressPreviousButton(
+            index,
+            checkedRadioButtonId,
+            positionCheckedRadioButton
+        )
     }
 
     private fun getPositionRadioButton(): Int {
@@ -186,7 +187,6 @@ class QuizFragment : Fragment() {
         window.statusBarColor =
             ContextCompat.getColor(requireContext(), color)
         requireContext().theme.applyStyle(theme, true)
-
     }
 
     override fun onDestroyView() {
@@ -197,7 +197,6 @@ class QuizFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         dataPassListener = null
-
     }
 
 
@@ -219,5 +218,4 @@ class QuizFragment : Fragment() {
         }
 
     }
-
 }

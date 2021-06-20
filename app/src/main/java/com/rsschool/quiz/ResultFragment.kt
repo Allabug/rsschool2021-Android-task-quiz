@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.FragmentResultBinding
 
@@ -19,6 +20,11 @@ class ResultFragment : Fragment() {
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
     private var dataListenerResult: DataListenerResult? = null
+    private val backListener = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            dataListenerResult?.closeQuizApp()
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,6 +32,11 @@ class ResultFragment : Fragment() {
             dataListenerResult = context
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this,backListener)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

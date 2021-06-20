@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.rsschool.quiz.databinding.ActivityMainBinding
-import java.lang.StringBuilder
 
 
 class MainActivity : AppCompatActivity(), QuizFragment.DataPassListener,
@@ -172,6 +172,8 @@ class MainActivity : AppCompatActivity(), QuizFragment.DataPassListener,
     override fun backToStart() {
         currentIndex = 0
         questionBank.forEach { it.checkedRadioButtonId = 0 }
+        // clear backstack
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         openNextFragment()
 
     }
@@ -179,4 +181,5 @@ class MainActivity : AppCompatActivity(), QuizFragment.DataPassListener,
     override fun closeQuizApp() {
         finish()
     }
+
 }
