@@ -80,9 +80,6 @@ class MainActivity : AppCompatActivity(), QuizFragment.DataPassListener,
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("productList", questionBank)
         openNextFragment()
     }
 
@@ -173,7 +170,7 @@ class MainActivity : AppCompatActivity(), QuizFragment.DataPassListener,
         currentIndex = 0
         questionBank.forEach { it.checkedRadioButtonId = 0 }
         // clear backstack
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         openNextFragment()
 
     }
